@@ -21,8 +21,6 @@ class ZonesController extends Controller
   public function store(Request $request) {
     //var_dump($request);
     $name = $request->input('data.name');
-    var_dump($name);
-
     if ($name != null) {
 
       $dominio = Domain::where('name', '=', $name)->first();

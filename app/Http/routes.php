@@ -30,9 +30,16 @@ Route::get('/', function () {
     //
 //});
 Route::get('api/domains', 'DomainsController@index');
-Route::get('api/domains/show', 'DomainsController@show');
+Route::get('api/domains/showRecord', 'DomainsController@showRecord');
+Route::get('api/domains/showDomain', 'DomainsController@showDomain');
 Route::post('api/domains/newMasterZone', 'ZonesController@store');
-Route::delete('api/domains/{id}', 'ZonesController@destroy');
+Route::delete('api/domains/{id}', 'DomainsController@destroy');
+Route::get('api/mailboxs', 'MailboxController@index');
+Route::get('api/mailboxs/domains', 'MailDomainController@index');
+Route::post('api/mailboxs/newMailbox', 'MailboxController@store');
+Route::delete('api/mailboxs/{address}', 'MailboxController@destroy');
+Route::get('api/mailboxs/{id}', 'MailboxController@show');
+Route::patch('api/mailboxs/{address}', 'MailboxController@update');
 //Route::group(['prefix' => 'api'], function()
 //{
   //Route::resource('domains', 'DomainsController');
