@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Domain;
 use App\Models\Record;
+use App\Models\Zone;
 
 class DomainsController extends Controller
 {
@@ -17,25 +18,29 @@ class DomainsController extends Controller
     $domains = Domain::with('records')->get();
     return $domains;
   }
-  public function show(Request $request) {
+  public function showRecord(Request $request) {
     $id = $request->input('id');
     $records = Record::where('domain_id', '=', $id)->get();
     return $records;
   }
+  public function showDomain(Request $request) {
+    $id = $request->input('id');
+    $records = Domain::where('id', '=', $id)->get();
+    return $records;
+  }
   public function destroy(Request $request) {
-	  $aux = $request->input('hidden');
-  	if ($aux == 'record' ) {
-  		$records = Record::where('id', '=', $id)-> delete();
-  		return Redirect::to('list_zones')->with('notice', 'El registro ha sido eliminado correctamente.');
-  	}
-  	else {
-  // es una zona, borro tooodo
-  	$domain = Domain::find($id);
-  	$domain_id = $id;
-  	$zones = Zone::where('domain_id', '=', $domain_id)-> delete();
-  	$records = Record::where('domain_id', '=', $domain_id)-> delete();
-  	$domain->delete();
-  	return Redirect::to('list_zones')->with('notice', 'El registro ha sido eliminado correctamente.');
-  	}
-   }
+    $id = $request->input('id');
+    $aux = $request->input('hidden');
+    if ($aux == 'record' ) {
+      $records = Record::where('id', '=', $id)-> delete();
+      //return Redirect::to('list_zones')->with('notice', 'El registro ha sido eliminado correctamente.');
+    } else {
+      $domain = Domain::find($id);
+      $domain_id = $id;
+      $zones = Zone::where('domain_id', '=', $domain_id)-> delete();
+      $records = Record::where('domain_id', '=', $domain_id)-> delete();
+      $domain->delete();
+      return response()->json('ok');
+    }
+  }
 }
