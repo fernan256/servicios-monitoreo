@@ -21,11 +21,14 @@
 
         vm.deleteDomain = function (id) {
           console.log(id);
-          //$http.delete('api/domains/{id}', {params: {id : id}}).success(function (domain) {
-        //    console.log(domain);
-        //  }).error(function (error) {
-        //    vm.error = error;
-        //  })
+
+          $http.delete('api/domains/{id}', {params: {id : id}}).success(function (domain) {
+            if(domain = 'ok') {
+              vm.getDomains();
+            }
+          }).error(function (error) {
+            vm.error = error;
+          })
         }
       }
 })();

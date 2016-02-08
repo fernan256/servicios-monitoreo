@@ -11,7 +11,7 @@
         vm.domains;
         vm.error;
         vm.getRecords = function (id) {
-          $http.get('api/domains/show', {params: {id : id}}).success(function(records) {
+          $http.get('api/domains/showRecord', {params: {id : id}}).success(function(records) {
             vm.records = records;
           }).error(function(error) {
             vm.error = error;

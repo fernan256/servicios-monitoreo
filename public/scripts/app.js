@@ -5,7 +5,7 @@
 'use strict';
 
 angular
-      .module('webServices', ['ui.router'])
+      .module('webServices', ['ui.router', 'mgcrea.ngStrap'])
       .config(function($stateProvider, $urlRouterProvider) {
 
         $urlRouterProvider.otherwise('/home');
@@ -35,5 +35,20 @@ angular
             url: '/domains/addSlaveZone',
             templateUrl: './views/zones/addSlaveZoneView.html',
             controller: 'addSlaveZoneCtrl as addSlave'
+          })
+          .state('listMailbox', {
+            url: '/mailbox',
+            templateUrl: './views/mailbox/listMailboxView.html',
+            controller: 'mailboxController as mailbox'
+          })
+          .state('addMailbox', {
+            url: '/mailbox/new',
+            templateUrl: './views/mailbox/addMailboxView.html',
+            controller: 'mailboxController as mailbox'
+          })
+          .state('editMailbox', {
+            url: '/mailbox/edit/:address',
+            templateUrl: './views/mailbox/editMailboxView.html',
+            controller: 'editMailboxController as editMailbox'
           });
       });

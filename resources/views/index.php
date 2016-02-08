@@ -42,6 +42,9 @@
     </div>
   </body>
   <script src="bower_components/angular/angular.min.js"></script>
+  <script src="bower_components/angular-animate/angular-animate.min.js"></script>
+  <script src="bower_components/angular-strap/dist/angular-strap.min.js"></script>
+  <script src="bower_components/angular-strap/dist/angular-strap.tpl.min.js"></script>
   <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
   <script src="bower_components/ng-resource/dist/ng-resource.min.js"></script>
   <script src="scripts/app.js"></script>
@@ -50,4 +53,7 @@
   <script src="scripts/controllers/recordController.js"></script>
   <script src="scripts/controllers/addMasterZoneCtrl.js"></script>
   <script src="scripts/controllers/addSlaveZoneCtrl.js"></script>
+  <script src="scripts/controllers/mailboxController.js"></script>
+  <script src="scripts/controllers/editMailboxController.js"></script>
+  <script src="scripts/filters/yesNo.js"></script>
 </html>

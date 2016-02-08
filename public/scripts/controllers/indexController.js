@@ -8,7 +8,6 @@
     $scope.monitoreo = 'https://htagro.info:10443';
 
     $scope.linkModelFunc = function (url){
-      console.log('link model function');
       $window.open(url);
     }
   }
