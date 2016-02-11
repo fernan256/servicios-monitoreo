@@ -11,44 +11,82 @@ angular
         $urlRouterProvider.otherwise('/home');
 
         $stateProvider
-          .state('index', {
+          .state('app', {
+            abstract:true,
+            views: {
+              '': {
+                templateUrl: './views/content/content.html'
+                //controller: 'ContentController as Content'
+              },
+              'nav': {
+                templateUrl: './views/navbar/navbar.html',
+                controller: 'homeCtrl as home'
+              }
+            }
+          })
+          .state('app.home', {
             url: '/home',
             templateUrl: './views/index.html',
-            controller: 'indexController as index'
+            controller: 'homeCtrl as home'
           })
-          .state('domains', {
+          .state('app.domains', {
             url: '/domains',
             templateUrl: './views/domains/domainView.html',
-            controller: 'domainController as domain'
+            controller: 'domainCtrl as domain'
           })
-          .state('records', {
+          .state('app.records', {
             url: '/records/:id',
-            templateUrl: './views/zones/recordView.html',
-            controller: 'recordController as record'
+            templateUrl: './views/records/recordView.html',
+            controller: 'recordCtrl as record'
           })
-          .state('addMasterZone', {
+          .state('app.addRecords', {
+            url: '/records/add/:id',
+            templateUrl: './views/records/addRecordView.html',
+            controller: 'recordCtrl as record'
+          })
+          .state('app.editRecord', {
+            url: '/records/edit/:id',
+            templateUrl: './views/records/editRecordView.html',
+            controller: 'editRecordCtrl as editRecord'
+          })
+          .state('app.addMasterZone', {
             url: '/domains/addMasterZone',
             templateUrl: './views/zones/addMasterZoneView.html',
-            controller: 'addMasterZoneCtrl as addMaster'
+            controller: 'addZoneCtrl as addZone'
           })
-          .state('addSlaveZone', {
+          .state('app.addSlaveZone', {
             url: '/domains/addSlaveZone',
             templateUrl: './views/zones/addSlaveZoneView.html',
-            controller: 'addSlaveZoneCtrl as addSlave'
+            controller: 'addZoneCtrl as addZone'
           })
-          .state('listMailbox', {
-            url: '/mailbox',
+          .state('app.listMailbox', {
+            url: '/mailboxs',
             templateUrl: './views/mailbox/listMailboxView.html',
-            controller: 'mailboxController as mailbox'
+            controller: 'mailboxCtrl as mailbox'
           })
-          .state('addMailbox', {
+          .state('app.addMailbox', {
             url: '/mailbox/new',
             templateUrl: './views/mailbox/addMailboxView.html',
-            controller: 'mailboxController as mailbox'
+            controller: 'mailboxCtrl as mailbox'
           })
-          .state('editMailbox', {
+          .state('app.editMailbox', {
             url: '/mailbox/edit/:address',
             templateUrl: './views/mailbox/editMailboxView.html',
-            controller: 'editMailboxController as editMailbox'
+            controller: 'editMailboxCtrl as editMailbox'
+          })
+          .state('app.listMailDomain', {
+            url: '/mailDomains',
+            templateUrl: './views/mailDomain/listMailDomainView.html',
+            controller: 'mailDomainCtrl as mailDomain'
+          })
+          .state('app.addMailDomain', {
+            url: '/mailDomain/addDomain',
+            templateUrl: './views/mailDomain/addMailDomainView.html',
+            controller: 'mailDomainCtrl as mailDomain'
+          })
+          .state('app.editMailDomain', {
+            url: '/mailDomain/editDomain/:id',
+            templateUrl: './views/mailDomain/editMailDomainView.html',
+            controller: 'editMailDomainCtrl as editMDomain'
           });
       });
