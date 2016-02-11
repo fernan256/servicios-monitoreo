@@ -13,30 +13,22 @@ use App\Models\Zone;
 
 class ZonesController extends Controller
 {
-  public function create() {
-    $master = new Domain();
-    return View::make('add_master.save')->with('master', $master);
-  }
-  //guardo en db
   public function store(Request $request) {
-    //var_dump($request);
     $name = $request->input('data.name');
     if ($name != null) {
-
       $dominio = Domain::where('name', '=', $name)->first();
 
       if ($dominio != null) {
-        return 'dominio existente';
-        //return Redirect::to('add_master/create')->with('notice', 'La zona ya existe');
+        return response()->json('notice', 'La zona ya existe');
       }
+
       $master = new Domain();
       $master->name = $request->input('data.name');
       $master->type = $request->input('data.type');
       $master->save();
-      $id = $master->id; //obtengo id del ultimo registro que inserto
+      $id = $master->id; //Get the las insert
 
-      // tabla records
-
+      //Insert into Records
       $records= new Record();
       $records->domain_id = $id;
       $records->name = $request->input('data.name');
@@ -47,7 +39,34 @@ class ZonesController extends Controller
       $records->change_date = time();
       $records->auth = '1';
       $records->save();
-      // tabla zones
+
+      //Insert into Zones
+      $zones = new Zone();
+      $zones->domain_id = $id;
+      $zones->owner = '1';
+      $zones->comment = '';
+      $zones->zone_templ_id= '0';
+      $zones->save();
+
+      return response()->json('notice', 'La zona ha sido creada correctamente.');
+    } else {
+      return response()->json('notice', 'oops!');
+    }
+  }
+  public function storeSlave(Request $request) {
+    $name = $request->input('data.name',null);
+    if ($name != null) {
+      $dominio = Domain::where('name', '=', $name)->first();
+
+      if ($dominio != null) {
+        return response()->json('notice', 'La zona ya existe');
+      }
+      $slave = new Domain();
+      $slave->name = $request->input('data.name');
+      $slave->master = $request->input('data.nameserver');
+      $slave->type = 'SLAVE';
+      $slave->save();
+      $id = $slave->id;
 
       $zones = new Zone();
       $zones->domain_id = $id;
@@ -56,27 +75,10 @@ class ZonesController extends Controller
       $zones->zone_templ_id= '0';
       $zones->save();
 
-      return $master;
-      //return Redirect::to('/')->with('notice', 'La zona ha sido creada correctamente.');
-      }
-      else {
-        return 'error';
-        //return Redirect::to('add_master/create')->with('notice', 'oops!');
-      }
+      return response()->json('notice', 'La zona ha sido creada correctamente.');
+    }
+    else {
+      return response()->json('notice', 'oops!');
+    }
   }
-
-  // public function store()
-  //   {
-  //       Domain::create(array(
-  //           'name' => Input::get('name'),
-  //           'master' => Input::get('master'),
-  //           'last_check' => Input::get('last_check'),
-  //           'type' => Input::get('type'),
-  //           'notified_serial' => Input::get('notified_serial'),
-  //           'account' => Input::get('account'),
-  //
-  //       ));
-  //
-  //       return Response::json(array('success' => true));
-  //   }
 }
