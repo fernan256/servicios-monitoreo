@@ -1,0 +1,31 @@
+<h3>Edición Registro</h3>
+<form ng-submit="editRecord.edit()">
+  <fieldset class="form-group">
+    <label for="name">Nombre</label>
+    <input type="text" name="name" class="form-control" id="name" placeholder="{{editRecord.record.name}}" ng-model="editRecord.record.name">
+  </fieldset>
+  <fieldset class="form-group">
+    <label for="type">Tipo</label>
+    <select class="form-control" name="type" id="type" ng-model="editRecord.record.type">
+      <option value="">{{editRecord.record.type}}</option>
+      <option ng-repeat="type in editRecord.types">{{type}}</option>
+    </select>
+  </fieldset>
+  <fieldset class="form-group">
+    <label for="content">Contenido</label>
+    <input type="text" name="content" class="form-control" id="content" placeholder="{{editRecord.record.content}}" ng-model="editRecord.record.content">
+  </fieldset>
+  <fieldset class="form-group">
+    <label for="ttl">TTL</label>
+    <input type="text" name="ttl" class="form-control" id="ttl" placeholder="{{editRecord.record.ttl}}" ng-model="editRecord.record.ttl">
+  </fieldset>
+  <fieldset class="form-group">
+    <label for="priority">Prioridad</label>
+    <select class="form-control" name="priority" id="owner" ng-model="editRecord.record.priority">
+      <option value="">{{editRecord.record.prio}}</option>
+      <option ng-repeat="priority in editRecord.priority">{{priority}}</option>
+    </select>
+  </fieldset>
+  <button type="submit" class="btn btn-primary">Editar</button>
+  <button type="button" class="btn btn-warning" ng-click="editRecord.cancel(editRecord.record.domain_id)">Cancelar</button>
+</form>

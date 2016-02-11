@@ -1,16 +1,17 @@
 <div class="col-md-12">
   <div class="well">
-    <h3>Web services</h3>
     <h2>DNS</h2>
-    <button class="btn btn-primary" ui-sref="domains">Listar Zonas</button>
-    <button class="btn btn-primary" ui-sref="addMasterZone">Agregar Zona Master</button>
-    <button class="btn btn-primary" ui-sref="addSlaveZone">Agregar Zona Slave</button>
+    <button class="btn btn-primary" ui-sref="app.domains">Listar Zonas</button>
+    <button class="btn btn-primary" ui-sref="app.addMasterZone">Agregar Zona Master</button>
+    <button class="btn btn-primary" ui-sref="app.addSlaveZone">Agregar Zona Slave</button>
     <h2>Mail</h2>
-    <button class="btn btn-primary" ui-sref="listMailbox">Cuentas de correo electrónico</button>
-    <button class="btn btn-primary" ui-sref="addMailbox">Agregar correo electrónico</button>
+    <button class="btn btn-primary" ui-sref="app.listMailbox">Cuentas de Correo Electrónico</button>
+    <button class="btn btn-primary" ui-sref="app.addMailbox">Agregar Correo Electrónico</button>
+    <button class="btn btn-primary" ui-sref="app.listMailDomain">Dominios</button>
+    <button class="btn btn-primary" ui-sref="app.addMailDomain">Agregar Dominio</button>
     <h2>Roundcube</h2>
-    <a class="btn btn-primary" href="{{roundcube}}" title="Habitat Conservation Plan" target="_blank" ng-click="linkModelFunc(hcpurl)">Roundcube</a>
+    <a class="btn btn-primary" href="http://htagro.info/roundcube/" target="_blank">Roundcube</a>
     <h2>Monitoreo</h2>
-    <a class="btn btn-primary" href="{{monitoreo}}" title="Habitat Conservation Plan" target="_blank" ng-click="linkModelFunc(hcpurl)">Monitoreo</a>
+    <a class="btn btn-primary" href="https://htagro.info:10443" target="_blank">Monitoreo</a>
   </div>
 </div>

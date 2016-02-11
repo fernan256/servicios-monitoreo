@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="col-md-12 well panel panel-default">
+    <h3>Agregar Registro</h3>
+    <form ng-submit="record.addRecord()">
+      <fieldset class="form-group col-md-3">
+        <label for="name">Nombre</label>
+        <input type="text" name="name" class="form-control" id="name" ng-model="record.add.name">.{{record.domain.name}}
+      </fieldset>
+      <fieldset class="form-group col-md-2">
+        <label for="type">Tipo</label>
+        <select class="form-control" name="type" id="type" ng-model="record.add.type">
+          <option value="">{{type}}</option>
+          <option ng-repeat="type in record.types">{{type}}</option>
+        </select>
+      </fieldset>
+      <fieldset class="form-group col-md-3">
+        <label for="content">Contenido</label>
+        <input type="text" name="content" class="form-control" id="content" ng-model="record.add.content">
+      </fieldset>
+      <fieldset class="form-group col-md-3">
+        <label for="ttl">TTL</label>
+        <input type="text" name="ttl" class="form-control" id="ttl" ng-model="record.add.ttl">
+      </fieldset>
+      <fieldset class="form-group col-md-1">
+        <label for="priority">Prioridad</label>
+        <select class="form-control" name="priority" id="owner" ng-model="record.add.priority">
+          <option value="">{{prio}}</option>
+          <option ng-repeat="priority in record.priority">{{priority}}</option>
+        </select>
+      </fieldset>
+      <button type="submit" class="btn btn-primary">Agregar</button>
+      <button type="button" class="btn btn-warning" ng-click="record.cancel()">Cancelar</button>
+    </form>
+  </div>
+</div>

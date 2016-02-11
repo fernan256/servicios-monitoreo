@@ -4,24 +4,20 @@
       <table class="table table-striped custab">
         <thead>
           <tr>
-              <th>E-Mail</th>
-              <th>Nombre</th>
-              <th>Tamaño casilla</th>
+              <th>Dominio</th>
               <th>Activo</th>
               <th class="text-center">Acciones</th>
           </tr>
         </thead>
-        <tbody ng-repeat="mailbox in mailbox.mailboxs">
+        <tbody ng-repeat="domain in mailDomain.mailDomains">
           <tr>
-              <td>{{mailbox.address}}</td>
-              <td>{{mailbox.name}}</td>
-              <td>{{mailbox.quota}} MB</td>
-              <td>{{mailbox.enabled | yesNo}}</td>
+              <td>{{domain.domain}}</td>
+              <td>{{domain.enabled | yesNo}}</td>
               <td class="text-center">
-                <button class='btn btn-info btn-xs' ui-sref="editMailbox({address: mailbox.address})">
+                <button class='btn btn-info btn-xs' ui-sref="editMailDomain({id: domain.pkid})">
                   <span class="glyphicon glyphicon-edit"></span> Editar
                 </button>
-                <button class="btn btn-danger btn-xs" ng-click="$parent.mailbox.deleteMailbox(mailbox.address)">
+                <button class="btn btn-danger btn-xs" ng-click="$parent.mailDomain.delete(domain.pkid)">
                   <span class="glyphicon glyphicon-remove"></span> Eliminar
                 </button>
               </td>

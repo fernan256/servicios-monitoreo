@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="col-md-12 custyle">
+    <h3>Editar Dominio</h3>
+    <form ng-submit="editMDomain.editDomain()">
+      <fieldset class="form-group">
+        <label for="domainName">Nombre de Dominio</label>
+        <input type="text" name="domainName" class="form-control" id="domainName" placeholder="{{editMDomain.domain.domain}}" ng-model="editMDomain.domain.domain">
+      </fieldset>
+      <fieldset class="form-group">
+        <label for="enabled">Activo</label>
+        <input type="checkbox"  class="form-control" id="enabled" ng-checked="editMDomain.domain.enabled == 1" ng-model="editMDomain.check.enabled" ng-true-value="1" ng-false-value="0">
+      </fieldset>
+      <button type="submit" class="btn btn-primary">Editar</button>
+      <button type="button" class="btn btn-warning" ng-click="editMDomain.cancel()">Cancelar</button>
+    </form>
+  </div>
+</div>

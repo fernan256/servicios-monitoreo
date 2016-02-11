@@ -3,9 +3,9 @@
 
   angular
       .module('webServices')
-      .controller('mailboxController', mailboxController);
+      .controller('mailboxCtrl', mailboxCtrl);
 
-      function mailboxController($http) {
+      function mailboxCtrl($http, $location) {
         var vm = this;
 
         vm.mailboxs;
@@ -29,24 +29,28 @@
         }
         vm.getDomMailbox();
 
-        vm.addMailbox = function (ndata) {
-          var data = vm.newMailbox;
-          console.log(vm.newMailbox);
-
-          $http.post('api/mailboxs/newMailbox', {data: data}).success(function (mailbox) {
-            //console.log(mailbox);
-            vm.mailboxDomains = mailbox;
+        vm.add = function (ndata) {
+          var data = vm.new;
+          $http.post('api/mailboxs/newMailbox', {data: data}).success(function (res) {
+            $location.path('/mailboxs');
           }).error(function(error) {
             vm.error = error;
           });
         }
         vm.deleteMailbox = function (address) {
-          console.log(address);
-          $http.delete('api/mailboxs/{id}', {params: {id : address}}).success(function (domain) {
-            console.log(domain);
+          $http.delete('api/mailboxs/{id}', {params: {id : address}}).success(function (resp) {
+            if(resp === 'ok') {
+              vm.getMailbox();
+            } else {
+              console.log('problem');
+            }
           }).error(function (error) {
             vm.error = error;
           })
+        }
+
+        vm.cancel = function () {
+          $location.path('/');
         }
       }
 })();

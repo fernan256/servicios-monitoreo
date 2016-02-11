@@ -3,9 +3,9 @@
 
   angular
       .module('webServices')
-      .controller('domainController', domainController);
+      .controller('domainCtrl', domainCtrl);
 
-      function domainController($http) {
+      function domainCtrl($http) {
         var vm = this;
 
         vm.domains;
@@ -20,15 +20,14 @@
         vm.getDomains();
 
         vm.deleteDomain = function (id) {
-          console.log(id);
 
-          $http.delete('api/domains/{id}', {params: {id : id}}).success(function (domain) {
-            if(domain = 'ok') {
+          $http.delete('api/domains/' + id).success(function (resp) {
+            if(resp = 'success') {
               vm.getDomains();
             }
           }).error(function (error) {
             vm.error = error;
-          })
+          });
         }
       }
 })();

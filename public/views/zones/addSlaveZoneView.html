@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="col-md-12 well panel panel-default">
+    <h3>Agregar Zona Esclava</h3>
+    <form ng-submit="addZone.addSlaveZone()">
+      <fieldset class="form-group">
+        <label for="name">Nombre</label>
+        <input type="text" class="form-control" id="name" placeholder="Nombre de zona" ng-model="addZone.slaveZone.name">
+      </fieldset>
+      <fieldset class="form-group">
+        <label for="owner">Dueño</label>
+        <select class="form-control" id="owner" ng-model="addZone.slaveZone.owner">
+          <option value="">Administrador</option>
+        </select>
+      </fieldset>
+      <fieldset class="form-group">
+        <label for="nameserver">IP de NS Master</label>
+        <input type="text" class="form-control" id="nameserver" ng-model="addZone.slaveZone.nameserver" placeholder="Direccion IP">
+      </fieldset>
+      <button type="submit" class="btn btn-primary">Agregar</button>
+      <button type="button" class="btn btn-warning" ng-click="addZone.cancel()">Cancelar</button>
+    </form>
+  </div>
+</div>

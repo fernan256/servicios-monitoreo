@@ -8,7 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Models\Mailbox;
-use App\Models\Alias;
+use App\Models\Aliases;
 
 class MailboxController extends Controller
 {
@@ -16,16 +16,12 @@ class MailboxController extends Controller
     $mailboxes = Mailbox::all();
     return $mailboxes;
   }
-  public function show(Request $request) {
-    $address = $request->input('id');
-    $mailbox = Mailbox::where('address', '=', $address)->first();
-    return response()->json($mailbox);
+  public function show($id) {
+    $mailbox = Mailbox::where('id', '=', $id)->first();
+    return $mailbox;
   }
-
-   public function store(Request $request) {
-
+  public function store(Request $request) {
   	$length = strlen($request->input('data.password'));
-
    	$name = $request->input('data.username');
   	// if ($length < 6) {
   	// 	return Redirect::to('list_mailbox/create')->with('notice', 'oops!');
@@ -37,7 +33,6 @@ class MailboxController extends Controller
     //   echo ('null');
   	// 	//return Redirect::to('list_mailbox/create')->with('notice', 'La direccion solicitada esta en uso');
   	// }
-
    	$current_timestamp = date("Y-m-d H:i:s");
   	$mailbox = new Mailbox();
   	$mailbox->id = $request->input('data.username').'@'.$request->input('data.domain');
@@ -53,15 +48,13 @@ class MailboxController extends Controller
   	//$mailbox->domain = $request->input('domain');
   	$mailbox->created = $current_timestamp;
   	$mailbox->modified = $current_timestamp;
-    $mailbox->enabled = $request->input('data.enabled');
-  	// if($request->input('enabled') == ''){
-  	// 	$mailbox->enabled = '0';
-  	// }
-  	// else {
-  	// 	$mailbox->enabled ='1';
-  	// }
+  	if($request->input('data.enabled') == ''){
+      $mailbox->enabled = '0';
+  	}	else {
+  	 	$mailbox->enabled ='1';
+  	}
   	$mailbox->save();
-  	$alias = new Alias();
+  	$alias = new Aliases();
   	$alias->mail = $mailbox->address;
   	$alias->destination = $mailbox->address;
   	//$alias->domain = $mailbox->domain;
@@ -75,17 +68,40 @@ class MailboxController extends Controller
   // else {
   // 	//return Redirect::to('list_mailbox/create')->with('notice', 'oops!');
   // 	}
+    return response()->json('Creado');
   }
 
   public function destroy(Request $request) {
     $address = $request->input('id');
     $mailbox = Mailbox::where('address', '=', $address)-> delete();
-    $alias = Alias::where('mail', '=', $address)-> delete();
-    //return Redirect::to('list_mailbox')->with('notice', 'El mailbox ha sido eliminado correctamente.');
+    $alias = Aliases::where('mail', '=', $address)-> delete();
+    return response()->json('ok');
   }
 
-  public function update($address) {
-    echo $address;
+  public function edit(Request $request) {
+    $id = $request->input('data.address');
+    $length = strlen($request->input('data.password'));
+    if($length >= 6) {
+      $current_timestamp = date("Y-m-d H:i:s");
+      $mailbox = new Mailbox();
+      $mailbox->password = crypt($request->input('data.password'));
+      $mailbox->name = $request->input('data.name');
+      $mailbox->modified = $current_timestamp;
+      if($request->input('data.enabled') == ''){
+        $mailbox->enabled = '0';
+      } else {
+        $mailbox->enabled ='1';
+      }
+      //super query
+      Mailbox::where('address', $id)
+                ->update(['name' => $mailbox->name, 'enabled' => $mailbox->enabled, 'crypt' => $mailbox->password, 'modified' => $mailbox->modified]);
+      Aliases::where('mail', $id)
+                ->update(['modified' => $mailbox->modified, 'enabled' => $mailbox->enabled]);
 
+      //return response()->json('Actualizado');
+    }
+    else {
+      return response()->json('Error');
+    }
   }
 }

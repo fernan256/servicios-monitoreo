@@ -1,38 +1,42 @@
-<h3>Agregar correo electrónico</h3>
-<form ng-submit="mailbox.addMailbox()">
-  <fieldset class="form-group">
-    <label for="username">Correo electrónico</label>
-    <div class="input-group">
-      <input type="text" class="form-control" id="username" ng-model="mailbox.newMailbox.username">
-      <span class="input-group-addon" id="basic-addon1">@</span>
-    </div>
-  </fieldset>
-  <fieldset class="form-group">
-    <label for="owner">Dominio</label>
-    <select class="form-control" id="owner" ng-model="mailbox.newMailbox.domain">
-      <option ng-repeat="domain in mailbox.mailboxDomains">{{domain.domain}}</option>
-    </select>
-  </fieldset>
-  <fieldset class="form-group">
-    <label for="name">Nombre</label>
-    <input type="text"  class="form-control" id="name" ng-model="mailbox.newMailbox.name">
-  </fieldset>
-  <fieldset class="form-group">
-    <label for="password">Contraseña</label>
-    <input type="password" class="form-control" id="password" ng-model="mailbox.newMailbox.password">
-  </fieldset>
-  <fieldset class="form-group">
-    <label for="repeatPass">Repetir contraseña</label>
-    <input type="password" class="form-control" class="form-control" id="repeatPass" ng-model="mailbox.newMailbox.repeatPass">
-  </fieldset>
-  <fieldset class="form-group">
-    <label for="enabled">Activo</label>
-    <input type="checkbox"  class="form-control" id="enabled" ng-model="mailbox.newMailbox.enabled" ng-true-value="1" ng-false-value="0">
-  </fieldset>
-  <fieldset class="form-group">
-    <label for="quota">Cuota de buzón de correo</label>
-    <input type="number" class="form-control" id="quota" ng-model="mailbox.newMailbox.quota">
-  </fieldset>
-  <button type="submit" class="btn btn-primary">Agregar</button>
-  <button type="button" class="btn btn-warning" ng-click="cancel()">Cancelar</button>
-</form>
+<div class="container">
+  <div class="col-md-12 well panel panel-default">
+    <h3>Agregar correo electrónico</h3>
+    <form ng-submit="mailbox.add()">
+      <fieldset class="form-group">
+        <label for="username">Correo electrónico</label>
+        <div class="input-group">
+          <input type="text" class="form-control" id="username" ng-model="mailbox.new.username">
+          <span class="input-group-addon" id="basic-addon1">@</span>
+        </div>
+      </fieldset>
+      <fieldset class="form-group">
+        <label for="owner">Dominio</label>
+        <select class="form-control" id="owner" ng-model="mailbox.new.domain">
+          <option ng-repeat="domain in mailbox.mailboxDomains">{{domain.domain}}</option>
+        </select>
+      </fieldset>
+      <fieldset class="form-group">
+        <label for="name">Nombre</label>
+        <input type="text"  class="form-control" id="name" ng-model="mailbox.new.name">
+      </fieldset>
+      <fieldset class="form-group">
+        <label for="password">Contraseña</label>
+        <input type="password" class="form-control" id="password" ng-model="mailbox.new.password">
+      </fieldset>
+      <fieldset class="form-group">
+        <label for="repeatPass">Repetir contraseña</label>
+        <input type="password" class="form-control" class="form-control" id="repeatPass" ng-model="mailbox.new.repeatPass">
+      </fieldset>
+      <fieldset class="form-group">
+        <label for="enabled">Activo</label>
+        <input type="checkbox"  class="form-control" id="enabled" ng-model="mailbox.new.enabled" ng-true-value="1" ng-false-value="0">
+      </fieldset>
+      <fieldset class="form-group">
+        <label for="quota">Cuota de buzón de correo</label>
+        <input type="number" class="form-control" id="quota" ng-model="mailbox.new.quota">
+      </fieldset>
+      <button type="submit" class="btn btn-primary">Agregar</button>
+      <button type="button" class="btn btn-warning" ng-click="mailbox.cancel()">Cancelar</button>
+    </form>
+  </div>
+</div>
