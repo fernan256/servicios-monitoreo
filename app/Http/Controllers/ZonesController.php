@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 use App\Models\Domain;
 use App\Models\Record;
@@ -13,13 +15,19 @@ use App\Models\Zone;
 
 class ZonesController extends Controller
 {
+     public function __construct() {
+       // Apply the jwt.auth middleware to all methods in this controller
+       // except for the authenticate method. We don't want to prevent
+       // the user from retrieving their token if they don't already have it
+       $this->middleware('jwt.auth', ['except' => ['authenticate']]);
+   }
   public function store(Request $request) {
     $name = $request->input('data.name');
     if ($name != null) {
       $dominio = Domain::where('name', '=', $name)->first();
 
       if ($dominio != null) {
-        return response()->json('notice', 'La zona ya existe');
+        return response()->json('notice', 'La zona ya existe', 400);
       }
 
       $master = new Domain();
@@ -48,9 +56,9 @@ class ZonesController extends Controller
       $zones->zone_templ_id= '0';
       $zones->save();
 
-      return response()->json('notice', 'La zona ha sido creada correctamente.');
+      return response()->json('success', 200);
     } else {
-      return response()->json('notice', 'oops!');
+      return response()->json('error', 400);
     }
   }
   public function storeSlave(Request $request) {

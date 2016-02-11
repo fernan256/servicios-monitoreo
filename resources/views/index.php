@@ -19,7 +19,9 @@
   <script src="bower_components/ng-resource/dist/ng-resource.min.js"></script>
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
   <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="bower_components/satellizer/satellizer.js"></script>
   <script src="scripts/app.js"></script>
+  <script src="scripts/controllers/authenticateCtrl.js"></script>
   <script src="scripts/controllers/domainCtrl.js"></script>
   <script src="scripts/controllers/homeCtrl.js"></script>
   <script src="scripts/controllers/recordCtrl.js"></script>
