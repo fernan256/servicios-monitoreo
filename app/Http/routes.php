@@ -30,16 +30,29 @@ Route::get('/', function () {
     //
 //});
 Route::get('api/domains', 'DomainsController@index');
-Route::get('api/domains/showRecord', 'DomainsController@showRecord');
-Route::get('api/domains/showDomain', 'DomainsController@showDomain');
+Route::get('api/domains/records/{id}', 'DomainsController@showRecord');
+Route::get('api/domains/{id}', 'DomainsController@show');
 Route::post('api/domains/newMasterZone', 'ZonesController@store');
+Route::post('api/domains/newSlaveZone', 'ZonesController@storeSlave');
 Route::delete('api/domains/{id}', 'DomainsController@destroy');
+Route::patch('api/domains/{id}', 'DomainsController@edit');
+
+Route::get('api/records/{id}', 'RecordsController@show');
+Route::post('api/records', 'RecordsController@store');
+Route::patch('api/records', 'RecordsController@update');
+Route::delete('api/records/{id}', 'RecordsController@destroy');
+
 Route::get('api/mailboxs', 'MailboxController@index');
 Route::get('api/mailboxs/domains', 'MailDomainController@index');
 Route::post('api/mailboxs/newMailbox', 'MailboxController@store');
 Route::delete('api/mailboxs/{address}', 'MailboxController@destroy');
 Route::get('api/mailboxs/{id}', 'MailboxController@show');
-Route::patch('api/mailboxs/{address}', 'MailboxController@update');
+Route::patch('api/mailboxs', 'MailboxController@edit');
+
+Route::post('api/mailDomain/new', 'MailDomainController@store');
+Route::get('api/mailDomain/{id}', 'MailDomainController@show');
+Route::delete('api/mailDomain/{id}', 'MailDomainController@destroy');
+Route::patch('api/mailDomain', 'MailDomainController@update');
 //Route::group(['prefix' => 'api'], function()
 //{
   //Route::resource('domains', 'DomainsController');
