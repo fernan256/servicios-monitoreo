@@ -15,19 +15,16 @@ use App\Models\Zone;
 
 class ZonesController extends Controller
 {
-     public function __construct() {
-       // Apply the jwt.auth middleware to all methods in this controller
-       // except for the authenticate method. We don't want to prevent
-       // the user from retrieving their token if they don't already have it
-       $this->middleware('jwt.auth', ['except' => ['authenticate']]);
-   }
+  public function __construct() {
+    $this->middleware('jwt.auth');
+  }
   public function store(Request $request) {
     $name = $request->input('data.name');
     if ($name != null) {
       $dominio = Domain::where('name', '=', $name)->first();
 
       if ($dominio != null) {
-        return response()->json('notice', 'La zona ya existe', 400);
+        return response()->json(['error' => 'zone_exists'], 409);
       }
 
       $master = new Domain();
@@ -56,9 +53,9 @@ class ZonesController extends Controller
       $zones->zone_templ_id= '0';
       $zones->save();
 
-      return response()->json('success', 200);
+      return response()->json(['success' => 'zone_created'], 200);
     } else {
-      return response()->json('error', 400);
+      return response()->json(['error' => 'zone_error'], 400);
     }
   }
   public function storeSlave(Request $request) {
@@ -67,7 +64,7 @@ class ZonesController extends Controller
       $dominio = Domain::where('name', '=', $name)->first();
 
       if ($dominio != null) {
-        return response()->json('notice', 'La zona ya existe');
+        return response()->json(['error' => 'zoneSlave_exists'], 409);
       }
       $slave = new Domain();
       $slave->name = $request->input('data.name');
@@ -83,10 +80,10 @@ class ZonesController extends Controller
       $zones->zone_templ_id= '0';
       $zones->save();
 
-      return response()->json('notice', 'La zona ha sido creada correctamente.');
+      return response()->json(['success' => 'zoneSlave_created'], 200);
     }
     else {
-      return response()->json('notice', 'oops!');
+      return response()->json(['error' => 'zoneSlave_error'], 400);
     }
   }
 }
