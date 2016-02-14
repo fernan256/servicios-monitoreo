@@ -5,7 +5,7 @@
       .module('webServices')
       .controller('recordCtrl', recordCtrl);
 
-      function recordCtrl($http, $stateParams, $location) {
+      function recordCtrl($http, $stateParams, $state, $rootScope) {
         var vm = this;
         var id = $stateParams.id;
 
@@ -13,6 +13,11 @@
         vm.priority = [0,1,2,3,4,5,6,7,8,9,10];
 
         vm.error;
+
+        if($rootScope.currentUser === undefined) {
+          $state.go('login');
+        }
+
         vm.getRecords = function (id) {
           $http.get('api/domains/records/' + id).success(function(records) {
             vm.records = records;
@@ -37,7 +42,7 @@
           addData['domain_id'] = vm.domain.id;
           $http.post('api/records/', {data: addData}).success(function(records) {
             vm.records = records;
-            $location.path('/domains');
+            $state.go('app.domains');
           }).error(function(error) {
             vm.error = error;
           });
@@ -53,7 +58,7 @@
         }
 
         vm.cancel = function() {
-          $location.path('/domains');
+          $state.go('app.domains');
         }
       }
 })();

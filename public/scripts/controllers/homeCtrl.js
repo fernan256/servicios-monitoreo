@@ -9,6 +9,10 @@
     vm.user;
     vm.error;
 
+    if($rootScope.currentUser === undefined) {
+      $state.go('login');
+    }
+
     vm.getUser = function() {
       $http.get('api/authenticate').success(function(users) {
           vm.users = users;
