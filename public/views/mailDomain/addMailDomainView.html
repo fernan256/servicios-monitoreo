@@ -6,6 +6,10 @@
         <label for="domainName">Nombre de Dominio</label>
         <input type="text" class="form-control" id="domainName" ng-model="mailDomain.new.domain">
       </fieldset>
+      <div id="domain-error" class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Error</strong> El dominio ya existe.
+      </div>
       <fieldset class="form-group">
         <label for="enabled">Activo</label>
         <input type="checkbox"  class="form-control" id="enabled" ng-model="mailDomain.new.enabled" ng-true-value="1" ng-false-value="0">

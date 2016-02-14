@@ -6,6 +6,10 @@
         <label for="name">Nombre</label>
         <input type="text" class="form-control" id="name" placeholder="Nombre de zona" ng-model="addZone.slaveZone.name">
       </fieldset>
+      <div id="zoneSlave-exists" class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Error</strong> Dominio ya existe.
+      </div>
       <fieldset class="form-group">
         <label for="owner">Dueño</label>
         <select class="form-control" id="owner" ng-model="addZone.slaveZone.owner">

@@ -15,12 +15,9 @@ use App\Models\Zone;
 
 class DomainsController extends Controller
 {
-     public function __construct() {
-       // Apply the jwt.auth middleware to all methods in this controller
-       // except for the authenticate method. We don't want to prevent
-       // the user from retrieving their token if they don't already have it
-       $this->middleware('jwt.auth', ['except' => ['authenticate']]);
-   }
+  public function __construct() {
+   $this->middleware('jwt.auth');
+  }
   public function index() {
     $domains = Domain::all();
     $domains = Domain::with('records')->get();
@@ -36,10 +33,13 @@ class DomainsController extends Controller
   }
   public function destroy($id) {
     $domain = Domain::find($id);
+    if($domain = null) {
+      return response()->json(['error' => 'domain_does_not_existe'], 400);
+    }
     $domain_id = $id;
     $zones = Zone::where('domain_id', '=', $domain_id)-> delete();
     $records = Record::where('domain_id', '=', $domain_id)-> delete();
-    $domain->delete();
-    return response()->json('success', 200);
+    $domain = Domain::where('id', '=', $id)-> delete();
+    return response()->json(['success'], 200);
   }
 }

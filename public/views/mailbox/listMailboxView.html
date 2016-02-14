@@ -18,7 +18,7 @@
               <td>{{mailbox.quota}} MB</td>
               <td>{{mailbox.enabled | yesNo}}</td>
               <td class="text-center">
-                <button class='btn btn-info btn-xs' ui-sref="editMailbox({address: mailbox.address})">
+                <button class='btn btn-info btn-xs' ui-sref="app.editMailbox({address: mailbox.address})">
                   <span class="glyphicon glyphicon-edit"></span> Editar
                 </button>
                 <button class="btn btn-danger btn-xs" ng-click="$parent.mailbox.deleteMailbox(mailbox.address)">

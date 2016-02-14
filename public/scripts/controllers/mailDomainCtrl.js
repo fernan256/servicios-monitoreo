@@ -5,11 +5,17 @@
       .module('webServices')
       .controller('mailDomainCtrl', mailDomainCtrl);
 
-      function mailDomainCtrl($http, $location) {
+      function mailDomainCtrl($http, $state, $rootScope) {
         var vm = this;
 
         vm.mailDomains;
         vm.error;
+        $("#domain-error").hide();
+
+        if($rootScope.currentUser === undefined) {
+          $state.go('login');
+        }
+
         vm.getMailDomain = function () {
           $http.get('api/mailboxs/domains').success(function(domains) {
             vm.mailDomains = domains;
@@ -21,38 +27,35 @@
 
         vm.add = function (data) {
           var data = vm.new;
-          $http.post('api/mailDomain/new', {data: data}).success(function (mailbox) {
-            $location.path('/mailDomains');
+          $http.post('api/mailDomain/new', {data: data}).success(function () {
+            $state.go('app.mailDomains');
           }).error(function(error) {
+            if(vm.new.password !== vm.new.repeatPass) {
+              $("#domain-error").show();
+              setTimeout(function() {
+                $("#domain-error").hide();
+              }, 3000);
+            }
             vm.error = error;
           });
         }
         vm.delete = function (id) {
-          console.log(id);
-          $http.delete('api/mailDomain/' + id).success(function (resp) {
-            if(resp === 'ok') {
-              vm.getMailDomain();
-            } else {
-              console.log('problem');
-            }
+          $http.delete('api/mailDomain/' + id).success(function () {
+            vm.getMailDomain();
           }).error(function (error) {
             vm.error = error;
           })
         }
         vm.edit = function (address) {
-          $http.delete('api/mailDomain/' + id).success(function (resp) {
-            if(resp === 'ok') {
-              vm.getMailDomain();
-            } else {
-              console.log('problem');
-            }
+          $http.delete('api/mailDomain/' + id).success(function () {
+            vm.getMailDomain();
           }).error(function (error) {
             vm.error = error;
           })
         }
 
         vm.cancel = function () {
-          $location.path('/mailDomains');
+          $state.go('app.mailDomains');
         }
       }
 })();

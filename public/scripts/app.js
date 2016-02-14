@@ -26,32 +26,12 @@ angular
             }
           }
         }
-        function redirecIfNotLogged($q, $injector) {
-
-          return {
-
-            responseError: function(rejection) {
-              var $state = $injector.get('$state');
-              var rejectionReasons = ['token_not_provided', 'token_expired', 'token_absent', 'token_invalid'];
-              angular.forEach(rejectionReasons, function(value, key) {
-
-                if(rejection.data.error === value) {
-                  localStorage.removeItem('user');
-                  $state.go('login');
-                }
-              });
-              return $q.reject(rejection);
-            }
-          }
-        }
 
         // Setup for the $httpInterceptor
         $provide.factory('redirectWhenLoggedOut', redirectWhenLoggedOut);
-        $provide.factory('redirecIfNotLogged', redirecIfNotLogged);
 
         // Push the new factory onto the $http interceptor array
         $httpProvider.interceptors.push('redirectWhenLoggedOut');
-        $httpProvider.interceptors.push('redirecIfNotLogged');
 
         $authProvider.loginUrl = '/api/authenticate';
 
@@ -154,8 +134,6 @@ angular
               if(toState.name === "auth") {
                 event.preventDefault();
                 $state.go('app.home');
-              } else {
-                $state.go('login');
               }
             }
           });

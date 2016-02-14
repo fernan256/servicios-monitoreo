@@ -5,13 +5,18 @@
       .module('webServices')
       .controller('editMailDomainCtrl', editMailDomainCtrl);
 
-      function editMailDomainCtrl($http, $stateParams, $location) {
+      function editMailDomainCtrl($http, $stateParams, $state, $rootScope) {
         var vm = this;
         var domId = $stateParams.id;
 
         vm.mailbox;
         vm.check;
         vm.error;
+
+        if($rootScope.currentUser === undefined) {
+          $state.go('login');
+        }
+
         vm.getOne = function () {
           $http.get('api/mailDomain/' + domId).success(function(domain) {
             vm.domain = domain[0];
@@ -33,14 +38,14 @@
             dataMail['enabled'] = vm.check.enabled;
           }
           $http.patch('api/mailDomain', {data: dataMail}).success(function(mailbox) {
-            $location.path('/mailDomains');
+            $state.go('app.mailDomains');
           }).error(function(error) {
             vm.error = error;
           });
         }
 
         vm.cancel = function() {
-          $location.path('/mailDomains');
+          $state.go('app.mailDomains');
         }
       }
 })();

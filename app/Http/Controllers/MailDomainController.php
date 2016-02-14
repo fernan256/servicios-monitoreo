@@ -13,36 +13,33 @@ use App\Models\Maildomain;
 
 class MailDomainController extends Controller
 {
-     public function __construct() {
-       // Apply the jwt.auth middleware to all methods in this controller
-       // except for the authenticate method. We don't want to prevent
-       // the user from retrieving their token if they don't already have it
-       $this->middleware('jwt.auth', ['except' => ['authenticate']]);
-   }
-    public function index() {
-      $mailDomain = Maildomain::all();
-      return $mailDomain;
-    }
+  public function __construct() {
+    $this->middleware('jwt.auth');
+  }
+  public function index() {
+    $mailDomain = Maildomain::all();
+    return $mailDomain;
+  }
 
-    public function show($id) {
-      $mailDomain = Maildomain::where('pkid', $id)->get();
-      return $mailDomain;
-    }
+  public function show($id) {
+    $mailDomain = Maildomain::where('pkid', $id)->get();
+    return $mailDomain;
+  }
 
-    public function store(Request $request) {
-      $domainName = $request->input('data.domain');
-      if($domainName !== null) {
-        $domain = Maildomain::where('domain', '=', $domainName)->first();
-        if($domain !== null) {
-          return response()->json('El dominio ya existe');
-        } else {
-          $mailDomain = new Maildomain();
-          $mailDomain->domain = $request->input('data.domain');
-          $mailDomain->enabled = $request->input('data.enabled');
-          $mailDomain->save();
-        }
+  public function store(Request $request) {
+    $domainName = $request->input('data.domain');
+    if($domainName !== null) {
+      $domain = Maildomain::where('domain', '=', $domainName)->first();
+      if($domain !== null) {
+        return response()->json(['error' => 'domain_does_existe'], 400);
+      } else {
+        $mailDomain = new Maildomain();
+        $mailDomain->domain = $request->input('data.domain');
+        $mailDomain->enabled = $request->input('data.enabled');
+        $mailDomain->save();
       }
     }
+  }
 
   public function destroy($id) {
     $maildomain = Maildomain::where('pkid', $id)-> delete();
@@ -63,6 +60,6 @@ class MailDomainController extends Controller
     Maildomain::where('pkid', $pkid)
                 ->update(['domain' => $mailDomain->domain, 'enabled' => $mailDomain->enabled]);
 
-    return response()->json('Actualizado');
+    return response()->json(['success' => 'updated'], 200);
   }
 }
