@@ -125,7 +125,7 @@ class Process {
 		//exec($process->cmd, $output, $result);
 		//exec($command, $output, $result);
 		//$result = shell_exec($cmd . '> /dev/null & echo $!');
-		$result = shell_exec($cmd);
+		$result = shell_exec($cmd . '& echo $!');
 
 		return $result;
 	}
