@@ -120,6 +120,11 @@ angular
             url: '/mailDomain/editDomain/:id',
             templateUrl: './views/mailDomain/editMailDomainView.html',
             controller: 'editMailDomainCtrl as editMDomain'
+          })
+          .state('app.process', {
+            url: '/process',
+            templateUrl: './views/process/process.html',
+            controller: 'processCtrl as process'
           });
       })
       .run(function($rootScope, $state) {
