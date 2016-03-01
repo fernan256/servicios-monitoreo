@@ -26,6 +26,20 @@ class Process {
 		$this->nice = $ni;
 	}
 
+	/*Buscar proceso por PID*/
+	public static function find($pid) {
+		$process = new Process();
+		$process->pid = $pid;
+		$process->cmd = 'ps -p ' . $process->pid;
+		$command = sprintf($process->cmd,$process->pid);
+		exec($command, $output, $result);
+		if ($result == 1) {
+			return $status = 404;
+		} else {
+			return $status = 200;
+		}
+	}
+
 	/*Función que devuelve todos los procesos*/
 	public static function allProcess() {
 
@@ -63,8 +77,7 @@ class Process {
 
 	}
 
-	/*Delete a process*/
-
+	/*Eliminar un proceso*/
 	public static function killProcess($pid) {
 		$process = new Process();
 		$process->cmd = 'kill -9 %d';
@@ -76,8 +89,7 @@ class Process {
 		return $result;
 	}
 
-	/*Repriorize a process*/
-
+	/*Repriorizar un proceso*/
 	public static function repriorizeProcess($pid, $prio) {
 		$process = new Process();
 		$process->pid = $pid;
@@ -90,8 +102,7 @@ class Process {
 		return $output;
 	}
 
-	/*Launch a process*/
-
+	/*Lanzar un proceso*/
 	public static function launchProcess($cmd) {
 
 		// $process = new Process();
@@ -105,31 +116,18 @@ class Process {
 		// //var_dump($pid);
 
 		// return $output;
-				$process = new Process();
-		$command = '/usr/bin/%s &> /dev/null & $!';
+		//		$process = new Process();
+		//$command = '/usr/bin/%s &> /dev/null & $!';
 		//$command = '/tmp/test.sh';
 
 
-		$process->cmd = sprintf($command,$cmd);
-		exec($process->cmd, $output, $result);
+		//$process->cmd = sprintf($command,$cmd);
+		//exec($process->cmd, $output, $result);
 		//exec($command, $output, $result);
+		//$result = shell_exec($cmd . '> /dev/null & echo $!');
+		$result = shell_exec($cmd);
 
 		return $result;
-	}
-
-	/*Search a pid process*/
-
-	public static function find($pid) {
-		$process = new Process();
-		$process->pid = $pid;
-		$process->cmd = 'ps -p ' . $process->pid;
-		$command = sprintf($process->cmd,$process->pid);
-		exec($command, $output, $result);
-		if ($result == 1) {
-			return $status = 404;
-		} else {
-			return $status = 200;
-		}
 	}
 }
 
