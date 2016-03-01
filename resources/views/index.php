@@ -31,6 +31,7 @@
   <script src="scripts/controllers/editRecordCtrl.js"></script>
   <script src="scripts/controllers/mailDomainCtrl.js"></script>
   <script src="scripts/controllers/editMailDomainCtrl.js"></script>
+  <script src="scripts/controllers/processCtrl.js"></script>
   <script src="scripts/directives/numberConverter.js"></script>
   <script src="scripts/filters/yesNo.js"></script>
 </html>
