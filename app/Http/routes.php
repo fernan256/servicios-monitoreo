@@ -45,4 +45,8 @@ Route::group(['prefix' => 'api'], function()
 	Route::get('mailDomain/{id}', 'MailDomainController@show');
 	Route::delete('mailDomain/{id}', 'MailDomainController@destroy');
 	Route::patch('mailDomain', 'MailDomainController@update');
+
+	Route::resource('process', 'ProcessController', ['only' => [
+		'index', 'update', 'store', 'destroy'
+	]]);
 });
