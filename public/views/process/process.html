@@ -1,80 +1,99 @@
 <div class="col-md-12">
 	<div class="well">
-			<button class="btn btn-primary" ng-click="process.getProcess()">Listar procesos</button>
-			<form action="">
-				<input type="text" ng-model="cmd">
-				<button class="btn btn-primary" ng-click="process.launchProcess(cmd)">Lanzar proceso</button>
-			</form>
-      <div id="launchOk" class="alert alert-success alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <strong>Proceso con PID: {{process.launch}} lanzado correctamente.</strong>
+    <div class="col-md-12">
+      <button class="btn btn-primary" ng-click="process.getProcess()">Listar procesos</button>
+    </div>
+    <br>
+    <br>
+    <br>
+		<form action="">
+      <div class="col-md-6">
+        <input type="text" class="form-control" placeholder="Comando a ejecutar" ng-model="cmd">
       </div>
-      <div id="launchNoOk" class="alert alert-danger alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <strong>No se pudo lanzar el proceso.</strong>
+      <div class="col-md-6">
+        <button class="btn btn-primary" ng-click="process.launchProcess(cmd)">Lanzar proceso</button>
       </div>
-			<form action="">
-				<input type="text" ng-model="pro.prio">
-				<input type="text" ng-model="pro.pid">
-				<button class="btn btn-primary" ng-click="process.repriorizeProcess(pro)">Repriorizar proceso</button>
-			</form>
-			<div id="reOk" class="alert alert-success alert-dismissible" role="alert">
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <strong>{{process.repriorize}}.</strong>
+		</form>
+    <br>
+    <br>
+    <div id="launchOk" class="alert alert-success alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <strong>Proceso con PID: {{process.launch}} lanzado correctamente.</strong>
+    </div>
+    <div id="launchNoOk" class="alert alert-danger alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <strong>No se pudo lanzar el proceso.</strong>
+    </div>
+    <br />
+		<form action="">
+      <div class="col-md-4">
+        <input type="text" class="form-control" placeholder="Nueva prioridad" ng-model="pro.prio">
       </div>
-      <div id="reNoOk" class="alert alert-danger alert-dismissible" role="alert">
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <strong>No se pudo repriorizar el proceso.</strong>
+      <div class="col-md-4">
+        <input type="text" class="form-control" placeholder="PID del proceso" ng-model="pro.pid">
       </div>
-      <div id="killOk" class="alert alert-success alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <strong>Proceso terminado correctamente</strong>
+      <div class="col-md-4">
+        <button class="btn btn-primary" ng-click="process.repriorizeProcess(pro)">Repriorizar proceso</button>
       </div>
-      <div id="killNoOk" class="alert alert-danger alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <strong>No se pudo terminar el proceso.</strong>
-      </div>
-			<table class="table table-striped custab">
-        <thead>
-          <tr>
-              <th>User</th>
-              <th>PID</th>
-              <th>%CPU</th>
-              <th>%MEM</th>
-              <th>PRIORITY</th>
-              <th>NICE</th>
-              <th>VSZ</th>
-              <th>RSS</th>
-              <th>TTY</th>
-              <th>STATUS</th>
-              <th>START</th>
-              <th>TIME</th>
-              <th>COMMAND</th>
-              <th class="text-center">Acciones</th>
-          </tr>
-        </thead>
-        <tbody ng-repeat="process in process.process">
-          <tr>
-              <td>{{process.user}}</td>
-              <td>{{process.pid}}</td>
-              <td>{{process.pcpu}}</td>
-              <td>{{process.pmem}}</td>
-              <td>{{process.prio}}</td>
-              <td>{{process.nice}}</td>
-              <td>{{process.vsize}}</td>
-              <td>{{process.rss}}</td>
-              <td>{{process.tty}}</td>
-              <td>{{process.status}}</td>
-              <td>{{process.stime}}</td>
-              <td>{{process.time}}</td>
-              <td>{{process.cmd}}</td>
-              <td class="text-center">
-                <button class="btn btn-danger btn-xs" ng-click="$parent.process.killProcess(process.pid)">
-                  <span class="glyphicon glyphicon-remove"></span> Eliminar
-                </button>
-              </td>
-          </tr>
-        </tbody>
-      </table>
+		</form>
+		<div id="reOk" class="alert alert-success alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <strong>{{process.repriorize}}.</strong>
+    </div>
+    <div id="reNoOk" class="alert alert-danger alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <strong>No se pudo repriorizar el proceso.</strong>
+    </div>
+    <div id="killOk" class="alert alert-success alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <strong>Proceso terminado correctamente</strong>
+    </div>
+    <div id="killNoOk" class="alert alert-danger alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <strong>No se pudo terminar el proceso.</strong>
+    </div>
+    <br />
+		<table class="table table-striped custab">
+      <thead>
+        <tr>
+            <th>User</th>
+            <th>PID</th>
+            <th>%CPU</th>
+            <th>%MEM</th>
+            <th>PRIORITY</th>
+            <th>NICE</th>
+            <th>VSZ</th>
+            <th>RSS</th>
+            <th>TTY</th>
+            <th>STATUS</th>
+            <th>START</th>
+            <th>TIME</th>
+            <th>COMMAND</th>
+            <th class="text-center">Acciones</th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="process in process.process">
+        <tr>
+            <td>{{process.user}}</td>
+            <td>{{process.pid}}</td>
+            <td>{{process.pcpu}}</td>
+            <td>{{process.pmem}}</td>
+            <td>{{process.prio}}</td>
+            <td>{{process.nice}}</td>
+            <td>{{process.vsize}}</td>
+            <td>{{process.rss}}</td>
+            <td>{{process.tty}}</td>
+            <td>{{process.status}}</td>
+            <td>{{process.stime}}</td>
+            <td>{{process.time}}</td>
+            <td>{{process.cmd}}</td>
+            <td class="text-center">
+              <button class="btn btn-danger btn-xs" ng-click="$parent.process.killProcess(process.pid)">
+                <span class="glyphicon glyphicon-remove"></span> Eliminar
+              </button>
+            </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
