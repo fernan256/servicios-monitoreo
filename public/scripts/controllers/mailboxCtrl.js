@@ -63,12 +63,8 @@
           });
         }
         vm.deleteMailbox = function (address) {
-          $http.delete('api/mailboxs/{id}', {params: {id : address}}).success(function (resp) {
-            if(resp === 'ok') {
+          $http.delete('api/mailboxs/{id}', {params: {id : address}}).success(function () {
               vm.getMailbox();
-            } else {
-              console.log('problem');
-            }
           }).error(function (error) {
             vm.error = error;
           })
