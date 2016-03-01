@@ -9,6 +9,9 @@ use App\Http\Controllers\Controller;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
+use Mail;
+use File;
+
 use App\Models\Mailbox;
 use App\Models\Aliases;
 
@@ -26,10 +29,10 @@ class MailboxController extends Controller
     return $mailbox;
   }
   public function store(Request $request) {
-   	$name = $request->input('data.username');
-  	if ($name != null) {
-  	 	$address = $name.'@'.$request->input('data.domain');  //usuario@dominio
-  	 	$usuario = Mailbox::where('address', '=', $address)->first();
+    $name = $request->input('data.username');
+    if ($name != null) {
+      $address = $name.'@'.$request->input('data.domain');  //usuario@dominio
+      $usuario = Mailbox::where('address', '=', $address)->first();
       if ($usuario != null){
         return response()->json(['error' => 'mailbox_exists'], 409);
       }
@@ -37,32 +40,35 @@ class MailboxController extends Controller
       $mailbox = new Mailbox();
       $mailbox->id = $request->input('data.username').'@'.$request->input('data.domain');
       $pass = $request->input('data.password');
-    	$hash = crypt($pass);
-    	$mailbox->crypt = $hash;
+      $hash = crypt($pass);
+      $mailbox->crypt = $hash;
       $mailbox->address = $request->input('data.username').'@'.$request->input('data.domain');
-    	$mailbox->name = $request->input('data.name');
-    	$mailbox->maildir = $request->input('data.username').'/';
-    	$mailbox->quota = $request->input('data.quota', '0');
-    	$mailbox->created = $current_timestamp;
-    	$mailbox->modified = $current_timestamp;
-    	if($request->input('data.enabled') == ''){
+      $mailbox->name = $request->input('data.name');
+      $mailbox->maildir = $request->input('data.username').'/';
+      $mailbox->quota = $request->input('data.quota', '0');
+      $mailbox->created = $current_timestamp;
+      $mailbox->modified = $current_timestamp;
+      if($request->input('data.enabled') == ''){
         $mailbox->enabled = '0';
-    	}	else {
-    	 	$mailbox->enabled ='1';
-    	}
-    	$mailbox->save();
-    	$alias = new Aliases();
-    	$alias->mail = $mailbox->address;
-    	$alias->destination = $mailbox->address;
-    	$alias->created = $mailbox->created;
-    	$alias->modified = $mailbox->modified;
-    	$alias->enabled = $mailbox->enabled;
-    	$alias->save();
+      }	else {
+    	 $mailbox->enabled ='1';
+      }
+      $mailbox->save();
+      $alias = new Aliases();
+      $alias->mail = $mailbox->address;
+      $alias->destination = $mailbox->address;
+      $alias->created = $mailbox->created;
+      $alias->modified = $mailbox->modified;
+      $alias->enabled = $mailbox->enabled;
+      $alias->save();
+      Mail::send('email.welcome', ['mailbox' => $mailbox], function($m) use ($mailbox) {
+	$m->from('admin@htagro.info', 'Administrador');
+	$m->to($mailbox->address, $mailbox->name)->subject('Bienvenido');
+      });
       return response()->json(['success' => 'mailbox_created'], 200);
+    } else {
+      return response()->json(['error' => 'username_not_provided'], 200);
     }
-    else {
-   	  return response()->json(['error' => 'username_not_provided'], 200);
-   	}
   }
 
   public function destroy(Request $request) {

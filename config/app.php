@@ -122,8 +122,8 @@ return [
     */
 
     'providers' => [
-        PhpConsole\Laravel\ServiceProvider::class,
-        /*
+        
+	/*
          * Laravel Framework Service Providers...
          */
         Illuminate\Auth\AuthServiceProvider::class,

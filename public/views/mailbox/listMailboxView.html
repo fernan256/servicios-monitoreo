@@ -11,7 +11,7 @@
               <th class="text-center">Acciones</th>
           </tr>
         </thead>
-        <tbody ng-repeat="mailbox in mailbox.mailboxs">
+        <tbody ng-repeat="mailbox in mailbox.mailboxs | orderBy: '-created'">
           <tr>
               <td>{{mailbox.address}}</td>
               <td>{{mailbox.name}}</td>
