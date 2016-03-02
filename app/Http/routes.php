@@ -47,6 +47,6 @@ Route::group(['prefix' => 'api'], function()
 	Route::patch('mailDomain', 'MailDomainController@update');
 
 	Route::resource('process', 'ProcessController', ['only' => [
-		'index', 'update', 'store', 'destroy'
+		'index', 'update', 'store', 'destroy', 'show'
 	]]);
 });
