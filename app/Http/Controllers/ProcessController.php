@@ -16,26 +16,24 @@ class ProcessController extends Controller
   public function __construct() {
    $this->middleware('jwt.auth');
   }
+
   public function index() {
     $processes = Process::allProcess();
     return $processes;
   }
 
   /*Eliminar proceso*/
-
-  public function destroy(Request $request) {
-
-    $status = Process::find($request->input('pid'));
+  public function destroy($pid) {
+    $status = Process::find($pid);
     if ($status == '404'){
       return response()->json(array('status' => '404', 'message' => 'Not Found'));
     } else {
-      $process = Process::killProcess($request->input('pid'));
+      $process = Process::killProcess($pid);
       return response()->json(array('status' => '200', 'message' => 'Founded','result' => $process));
     }
   }
 
   /*Repriorize a process*/
-
   public function update(Request $request) {
     $process = new Process;
     $process->pid = $request->input('data.pid');
@@ -51,12 +49,18 @@ class ProcessController extends Controller
   }
 
   /*Execute a process*/
-
   public function store(Request $request) {
     $process = new Process;
     $process->cmd = $request->input('cmd');
     $process = Process::launchProcess($process->cmd);
-    //print_r($process);
+    return response()->json(array('status' => '200', 'message' => 'Founded', 'result' => $process));
+  }
+
+  /*Buscar un proceso*/
+  public function show($pid) {
+    $process = new Process;
+    $process->pid = $pid;
+    $process = Process::findOne($process->pid);
     return response()->json(array('status' => '200', 'message' => 'Founded', 'result' => $process));
   }
 }
