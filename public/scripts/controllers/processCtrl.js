@@ -15,6 +15,8 @@
         $("#killNoOk").hide();
         $("#launchOk").hide();
         $("#launchNoOk").hide();
+        $("#findOk").hide();
+        $("#findNoOk").hide();
 
         if($rootScope.currentUser === undefined) {
           $state.go('login');
@@ -48,7 +50,7 @@
           });
         }
         vm.killProcess = function (pid) {
-          $http.delete('api/process/{process}', {params: {pid:pid}}).success(function (resp) {
+          $http.delete('api/process/' + pid).success(function (resp) {
             if(resp.status === '200') {
               $anchorScroll();
               $("#killOk").show();
@@ -69,12 +71,8 @@
         vm.launchProcess = function (cmd) {
           $http.post('api/process', {cmd: cmd}).success(function (resp) {
             if(resp.status === '200') {
-              console.log(resp.result);
               vm.launch = resp.result;
               $("#launchOk").show();
-              setTimeout(function() {
-                $("#launchOk").hide();
-              }, 3000);
             } else {
               $("#launchNoOk").show();
               setTimeout(function() {
@@ -85,20 +83,22 @@
             vm.error = error;
           })
         }
-        vm.findProcess = function (address) {
-          $http.delete('api/mailboxs/{id}', {params: {id : address}}).success(function (resp) {
-            if(resp === 'ok') {
-              vm.getMailbox();
+        vm.findProcess = function (pid) {
+          console.log(pid);
+          $http.get('api/process/' + pid).success(function (resp) {
+            console.log(resp);
+            if(resp.status === '200') {
+              vm.founded = resp.result;
+              $("#findOk").show();
             } else {
-              console.log('problem');
+              $("#findNoOk").show();
+              setTimeout(function() {
+                $("#findNoOk").hide();
+              }, 3000);
             }
           }).error(function (error) {
             vm.error = error;
           })
-        }
-
-        vm.cancel = function () {
-          $state.go('app.home');
         }
       }
 })();
