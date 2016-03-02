@@ -40,6 +40,19 @@ class Process {
 		}
 	}
 
+	public static function findOne($pid) {
+		$process = new Process();
+		$process->pid = $pid;
+		$process->cmd = 'ps -faxu | grep ' . $process->pid;
+		$command = sprintf($process->cmd,$process->pid);
+		exec($command, $output, $result);
+		if ($result == 1) {
+			return $output;
+		} else {
+			return $output;
+		}
+	}
+
 	/*Función que devuelve todos los procesos*/
 	public static function allProcess() {
 
@@ -82,7 +95,6 @@ class Process {
 		$process = new Process();
 		$process->cmd = 'kill -9 %d';
 		$process->pid = $pid;
-
 		$command = sprintf($process->cmd, $process->pid);
 		exec($command, $output, $result);
 
@@ -95,7 +107,6 @@ class Process {
 		$process->pid = $pid;
 		$process->prio = $prio;
 		$process->cmd = 'renice %d -p %d';
-
 		$command = sprintf($process->cmd,$process->prio,$process->pid);
 		exec($command, $output, $result);
 
@@ -104,30 +115,9 @@ class Process {
 
 	/*Lanzar un proceso*/
 	public static function launchProcess($cmd) {
-
-		// $process = new Process();
-		// //$command = '/usr/bin/%s >/dev/null & echo $!;';
-		// $command =  $cmd . '> /dev/null & echo $!;';
-		// //$command = '/tmp/test.sh';
-
-		// $process->cmd = sprintf($command,$cmd);
-		// //$pid = exec($process->cmd, $output, $result);
-		// exec($command, $output, $result);
-		// //var_dump($pid);
-
-		// return $output;
-		//		$process = new Process();
-		//$command = '/usr/bin/%s &> /dev/null & $!';
-		//$command = '/tmp/test.sh';
-
-
-		//$process->cmd = sprintf($command,$cmd);
-		//exec($process->cmd, $output, $result);
-		//exec($command, $output, $result);
-		//$result = shell_exec($cmd . '> /dev/null & echo $!');
-		$result = shell_exec($cmd . '& echo $!');
-
-		return $result;
+		$command =  $cmd . '& echo $!;';
+		exec($command, $output, $code);
+		return $output;
 	}
 }
 
